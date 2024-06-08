@@ -12,7 +12,7 @@ const Button = ({
         <button
             type={type}
             onClick={onClick}
-            className={className}
+            className={`${className} text-txtPrimary" rounded-xl bg-primary px-8 py-2 text-center text-xl font-semibold text-txtPrimary focus:outline-none`}
             disabled={disabled}
         >
             {children}

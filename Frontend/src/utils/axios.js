@@ -7,8 +7,8 @@ const api = axios.create({
     withCredentials: true,
 });
 
-api.interceptors.response.use(
-    async (config) => {
+api.interceptors.request.use(
+    (config) => {
         const {accessToken} = store.getState().auth;
         if(accessToken){
             config.headers.Authorization = `Bearer ${accessToken}`;
@@ -24,13 +24,23 @@ api.interceptors.response.use(
     (response) => response,
     async (error) =>{
         const originalRequest = error.config;
-        if(error.response && error.response.status === 401 && !originalRequest._retry){
+        if (
+            error.response &&
+            error.response.status === 401 &&
+            !originalRequest._retry &&
+            error.response.data.message === "Unauthorized request"
+        ) {
             originalRequest._retry = true;
-            await store.dispatch(refreshToken());
-            const {accessToken} = store.getState().auth;
-            if(accessToken){
-                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-                return axios(originalRequest);
+            try {
+                await store.dispatch(refreshToken());
+                const { accessToken } = store.getState().auth;
+
+                if (accessToken) {
+                    originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                    return api(originalRequest); // Use the api instance to retry the request
+                }
+            } catch (refreshError) {
+                return Promise.reject(refreshError);
             }
         }
         return Promise.reject(error);  

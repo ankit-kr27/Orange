@@ -3,7 +3,7 @@ import ProfileIconDropdown from "../ProfileIconDropdown/ProfileIconDropdown";
 
 const Navbar = () => {
     return (
-        <div className="flex justify-between items-center px-8 pt-8">
+        <div className="flex justify-between items-center px-8 h-24">
             <div>
                 <svg
                     width="73"

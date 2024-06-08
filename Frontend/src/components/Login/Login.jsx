@@ -10,7 +10,7 @@ import Loader from "../Loader/Loader";
 const Login = () => {
     const methods = useForm();
     const [loginVia, setLoginVia] = useState("email");
-    const [err, setErr] = useState("");
+    // const [err, setErr] = useState("");
     const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
@@ -25,14 +25,12 @@ const Login = () => {
     }, [user, dispatch]);
 
     const loginUser = async (data) => {
-        setErr("");
         setLoading(true);
         try {
             dispatch(login(data));
             setLoading(false);
-        } catch (error) {
-            console.log(error);
-            setErr(error.message);
+        } catch (err) {
+            console.log(err);
         }
     };
 
@@ -43,10 +41,10 @@ const Login = () => {
     if (loading) return <Loader />;
 
     return (
-        <div className="">
-            <p>Nice to see you again</p>
+        <div className="flex flex-col items-center h-full">
+            <p className="text-txtPrimary mt-4 mb-2 font-normal text-base">Nice to see you again</p>
             <FormProvider {...methods}>
-                <form onSubmit={methods.handleSubmit(loginUser)}>
+                <form onSubmit={methods.handleSubmit(loginUser)} className="flex flex-col">
                     {loginVia === "email" ? (
                         <InputBox
                             name="email"
@@ -74,7 +72,7 @@ const Login = () => {
                             }}
                         />
                     )}
-                    <p onClick={toggleLoginVia}>
+                    <p onClick={toggleLoginVia} className="text-txtPrimary text-[14px] text-right font-light cursor-pointer">
                         Use{" "}
                         <span>
                             {loginVia === "email" ? "username" : "email"}
@@ -96,16 +94,16 @@ const Login = () => {
                         }}
                     />
 
-                    <Button type="submit">Login</Button>
+                    <Button type="submit" className="mt-24 mx-auto">Login</Button>
                 </form>
             </FormProvider>
-            <p>
+            <p className="text-txtPrimary mt-6 font-light">
                 Don&apos;t have an account?{" "}
-                <span onClick={()=>dispatch(openRegisterModal())}>
+                <span onClick={()=>dispatch(openRegisterModal())} className="text-primary font-semibold cursor-pointer">
                     register
                 </span>
             </p>
-            {err && <span>{err}</span>}
+            {error && <span>{error.message}</span>}
         </div>
     );
 };

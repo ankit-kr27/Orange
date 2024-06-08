@@ -15,6 +15,16 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))    // extended is n
 app.use(express.static("public"))   // to store assets in the public folder
 app.use(cookieParser())
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    if (!res.headersSent) {
+        res.status(err.statusCode || 500).json({
+            success: false,
+            message: err.message,
+        });
+    }
+});
+
 // *** Routes import ***
 import userRouter from './routes/user.routes.js'
 import tweetRouter from './routes/tweet.routes.js'

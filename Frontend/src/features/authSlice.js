@@ -54,9 +54,10 @@ const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.user = action.payload.user;
-                state.accessToken = action.payload.accessToken;
+                state.user = action.payload.data.user;
+                state.accessToken = action.payload.data.accessToken;
                 state.isAuthenticated = true;
+                console.log(action.payload)
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = "failed";
@@ -68,7 +69,7 @@ const authSlice = createSlice({
             })
             .addCase(refreshToken.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.accessToken = action.payload.accessToken;
+                state.accessToken = action.payload.data.accessToken;
                 state.isAuthenticated = true;
             })
             .addCase(refreshToken.rejected, (state, action) => {

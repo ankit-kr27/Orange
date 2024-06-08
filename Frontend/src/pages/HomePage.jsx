@@ -1,9 +1,9 @@
 import React from "react";
+import LoginModal from "../components/LoginModal/LoginModal";
 
 const HomePage = () => {
-    return <div>
-        <h1>Home Page</h1>
-        <p>Welcome to the Home Page</p>
+    return <div className="min-h-[calc(100vh - 96px)]">
+        <LoginModal />
     </div>;
 };
 

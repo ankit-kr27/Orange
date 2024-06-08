@@ -126,7 +126,7 @@ const registerUser = asyncHandler(async (req, res)=>{   // this will execute the
 })
 
 // *** LOGIN USER ***
-const loginUser = asyncHandler(async (req, res)=>{
+const loginUser = asyncHandler(async (req, res, next)=>{
     /* 
         req -> data
         find the user
@@ -157,7 +157,7 @@ const loginUser = asyncHandler(async (req, res)=>{
     const isPasswordValid = await user.isPasswordCorrect(password)  
     // schema method can be called for an instance of user
     if(!isPasswordValid){
-        throw new ApiError(401, "Invalid user credentials")
+        throw new ApiError(401, "Invalid user credentials");
     }
 
     // now if finally the password given is also correct then we'll create the access and the refresh token. (as it is done oftenly, we'll create a separate function for that)
