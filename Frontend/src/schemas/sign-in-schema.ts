@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// Sign in using email or username and password
 export const signInSchema = z.object({
     email: z.string().email().optional(),
     username: z.string().min(3).max(20).optional(),
