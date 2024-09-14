@@ -12,8 +12,8 @@ const AuthComponent = () => {
     };
 
     return (
-        <div className="mx-auto max-w-sm flex-1 rounded-lg border-2 border-gray-500 p-8 py-10">
-            <h1 className="text-center text-4xl font-extrabold text-orange-600">
+        <div className="mx-auto max-w-sm flex-1 rounded-xl border-2 border-gray-600/80 p-8 py-10">
+            <h1 className="text-center text-4xl font-extrabold text-orange-600 mb-6">
                 ORANGE
             </h1>
             {operation === 'register' ? <RegisterComponent /> : <SignInComponent />}

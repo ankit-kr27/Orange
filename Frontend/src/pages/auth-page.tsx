@@ -1,10 +1,11 @@
+import AuthLayout from "@/layouts/auth-layout";
 import AuthComponent from "../components/auth-component/auth-component";
 
 const AuthPage = () => {
     return (
-        <main className="m-auto max-w-7x inset-0 min-h-screen flex items-center">
+        <AuthLayout>
             <AuthComponent />
-        </main>
+        </AuthLayout>
     );
 };
 

@@ -41,7 +41,7 @@ const SignInComponent = () => {
     };
 
     return (
-        <form className="mt-6">
+        <form>
             {signInBy === "email" ? (
                 <div>
                     <Input
@@ -50,9 +50,8 @@ const SignInComponent = () => {
                         id="email"
                         value={formData.email}
                         errorMessage={errors.email}
-                        placeholder="Enter your email"
                         variant="bordered"
-                        color="primary"
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
                     />
                 </div>
             ) : (
@@ -64,14 +63,14 @@ const SignInComponent = () => {
                         value={formData.username}
                         errorMessage={errors.username}
                         variant="bordered"
-                        color="primary"
+                        onChange={(e) => setFormData({...formData, username: e.target.value})}
                     />
                 </div>
             )}
             <p className="mb-4 w-full text-end text-sm font-thin">
                 use{" "}
                 <span
-                    className="text-orange-600 font-normal"
+                    className="text-orange-600 font-normal cursor-pointer"
                     onClick={() =>
                         setSignInBy(signInBy === "email" ? "username" : "email")
                     }
@@ -89,11 +88,11 @@ const SignInComponent = () => {
                     value={formData.password}
                     errorMessage={errors.password}
                     variant="bordered"
-                    color="primary"
+                    onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
             </div>
             <div className="mb-6 mt-10 flex w-full">
-                <Button className="mx-auto text-background" onClick={onSubmit} color="primary" size="lg">
+                <Button className="mx-auto text-lg text-content1 font-semibold px-6 py-6" onClick={onSubmit} color="primary" size="md">
                     Sign In
                 </Button>
             </div>
