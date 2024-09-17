@@ -8,12 +8,12 @@ import axios from "axios";
 const RegisterComponent = ({
     setOperation,
 }: {
-    setOperation: React.Dispatch<React.SetStateAction<"signin" | "register">>;
+    setOperation: React.Dispatch<React.SetStateAction<"login" | "register">>;
 }) => {
     const [formData, setFormData] = useState<RegisterSchema>({
         email: "",
         password: "",
-        avatar:  null,
+        avatar: null,
         fullName: "",
         username: "",
         coverImage: null,
@@ -89,7 +89,7 @@ const RegisterComponent = ({
                 // console.log(response)
                 if (response.status === 201) {
                     console.log("Registeration successful!", response.data);
-                    setOperation("signin");
+                    setOperation("login");
                 }
             } catch (err) {
                 if (axios.isAxiosError(err)) {

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const signInSchema = z.object({
+export const logInSchema = z.object({
     email: z.string().email().optional(),
     username: z.string().min(3).max(20).optional(),
     password: z.string({message: "Password must be of atleast 6 characters"}).min(6),
@@ -8,4 +8,4 @@ export const signInSchema = z.object({
     message: 'Either email or username is required',
 })
 
-export type SignInSchema = z.infer<typeof signInSchema>;
+export type LogInSchema = z.infer<typeof logInSchema>;

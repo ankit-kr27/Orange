@@ -1,28 +1,38 @@
 import React, { useState } from "react";
-import { signInSchema, SignInSchema } from "@/schemas/sign-in-schema";
+import { logInSchema, LogInSchema } from "@/schemas/log-in-schema";
 import { Button, Input } from "@nextui-org/react";
+import LoadingOverlay from "../loading-overlay/loading-overlay";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { RootState } from "@/app/store";
+import { loginUser } from "@/features/auth-slice";
+import { useNavigate } from "react-router-dom";
 
-const SignInComponent = () => {
-    const [formData, setFormData] = useState<SignInSchema>({
+const LogInComponent = () => {
+    const navigate = useNavigate();
+
+    const dispatch = useAppDispatch();
+    const { loading, error } = useAppSelector((state: RootState) => state.auth)
+
+    const [formData, setFormData] = useState<LogInSchema>({
         email: "",
         password: "",
         username: "",
     });
 
-    const [signInBy, setSignInBy] = useState<"email" | "username">("email");
-    const [errors, setErrors] = useState<Partial<SignInSchema>>({});
+    const [logInBy, setLogInBy] = useState<"email" | "username">("email");
+    const [errors, setErrors] = useState<Partial<LogInSchema>>({});
 
     const validateForm = () => {
-        const result = signInSchema.safeParse({
-            email: signInBy === "email" ? formData.email : undefined,
-            username: signInBy === "username" ? formData.username : undefined,
+        const result = logInSchema.safeParse({
+            email: logInBy === "email" ? formData.email : undefined,
+            username: logInBy === "username" ? formData.username : undefined,
             password: formData.password,
         });
 
         if (!result.success) {
-            const validationErrors: Partial<SignInSchema> = {};
+            const validationErrors: Partial<LogInSchema> = {};
             result.error.errors.forEach((err) => {
-                validationErrors[err.path[0] as keyof SignInSchema] =
+                validationErrors[err.path[0] as keyof LogInSchema] =
                     err.message;
             });
             setErrors(validationErrors);
@@ -33,16 +43,22 @@ const SignInComponent = () => {
         return true;
     };
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log(formData);
+            try {
+                await dispatch(loginUser(formData))
+                navigate("/home");
+            } catch (error) {
+                console.error("Login failed: ", error);
+            }
         }
     };
 
     return (
         <form>
-            {signInBy === "email" ? (
+            <LoadingOverlay loading={loading} />
+            {logInBy === "email" ? (
                 <div>
                     <Input
                         label="Email"
@@ -72,10 +88,10 @@ const SignInComponent = () => {
                 <span
                     className="text-orange-600 font-normal cursor-pointer"
                     onClick={() =>
-                        setSignInBy(signInBy === "email" ? "username" : "email")
+                        setLogInBy(logInBy === "email" ? "username" : "email")
                     }
                 >
-                    {signInBy === "email" ? "username" : "email"}
+                    {logInBy === "email" ? "username" : "email"}
                 </span>{" "}
                 instead
             </p>
@@ -93,11 +109,16 @@ const SignInComponent = () => {
             </div>
             <div className="mb-6 mt-10 flex w-full">
                 <Button className="mx-auto text-lg text-content1 font-semibold px-6 py-6" onClick={onSubmit} color="primary" size="md">
-                    Sign In
+                    Log In
                 </Button>
             </div>
+            {error && (
+                <div className="mt-4 text-center text-red-500">
+                    {error}
+                </div>
+            )}
         </form>
     );
 };
 
-export default SignInComponent;
+export default LogInComponent;

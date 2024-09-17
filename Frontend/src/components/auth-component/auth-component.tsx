@@ -1,13 +1,13 @@
-import SignInComponent from "@/components/sign-in-component/sign-in-component";
+import LogInComponent from "@/components/log-in-component/log-in-component";
 import { useState } from "react";
 import RegisterComponent from "../register-component/register-component";
 
 const AuthComponent = () => {
-    const [operation, setOperation] = useState<"signin" | "register">("signin");
+    const [operation, setOperation] = useState<"login" | "register">("login");
 
     const toggleOperation = () => {
         operation === "register"
-            ? setOperation("signin")
+            ? setOperation("login")
             : setOperation("register");
     };
 
@@ -16,7 +16,7 @@ const AuthComponent = () => {
             <h1 className="text-center text-4xl font-extrabold text-orange-600 mb-6">
                 ORANGE
             </h1>
-            {operation === 'register' ? <RegisterComponent setOperation={setOperation} /> : <SignInComponent />}
+            {operation === 'register' ? <RegisterComponent setOperation={setOperation} /> : <LogInComponent />}
             <div className="text-center text-sm font-thin">
             {operation === "register" ? "Already " : "Don't "}
                 have an account{" "}
@@ -24,7 +24,7 @@ const AuthComponent = () => {
                     onClick={toggleOperation}
                     className="font-normal text-orange-600"
                 >
-                    {operation === "register" ? "Signin" : "Register"}
+                    {operation === "register" ? "Login" : "Register"}
                 </button>
             </div>
         </div>

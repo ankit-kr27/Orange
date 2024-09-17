@@ -1,6 +1,23 @@
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import ThemeToggleSwitch from "../theme-toggle-switch/theme-toggle-switch";
+import { RootState } from "@/app/store";
+import { logoutUser } from "@/features/auth-slice";
+import { Button } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const { loading } = useAppSelector((state: RootState) => state.auth);
+
+    const handleLogout = async () => {
+        try {
+            await dispatch(logoutUser());
+            navigate("/");
+        } catch (error) {
+            console.error("Logout failed: ", error);
+        }
+    };
     return (
         <div className="mx-auto flex max-w-7xl justify-between py-6">
             <div>
@@ -50,6 +67,14 @@ function Navbar() {
             </div>
             <div>
                 <ThemeToggleSwitch />
+                <Button
+                    onClick={handleLogout}
+                    color="primary"
+                    size="md"
+                    disabled={loading}
+                >
+                    {loading ? "Logging out..." : "Log Out"}
+                </Button>
             </div>
         </div>
     );
