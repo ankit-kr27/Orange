@@ -17,6 +17,7 @@ module.exports = {
     'react/prop-types': 'off',
     'no-unused-vars': 'warn',
     "@typescript-eslint/no-unused-vars": "warn",
-    'no-empty': "warn"
+    'no-empty': "warn",
+    '@typescript-eslint/no-explicit-any': 'warn'
   },
 }

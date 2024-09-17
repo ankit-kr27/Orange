@@ -23,7 +23,7 @@ export default function ThemeToggleSwitch() {
     };
 
     return (
-        <div className={`absolute right-1 top-4`}>
+        <div className={``}>
             <Switch
                 isSelected={isDarkMode}
                 size="lg"

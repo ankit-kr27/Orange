@@ -4,7 +4,9 @@ import React from "react";
 function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
         <section className="max-w-7x inset-0 m-auto flex min-h-screen items-center">
-            <ThemeToggleSwitch />
+            <div className="absolute top-8 right-4">
+                <ThemeToggleSwitch />
+            </div>
             {children}
         </section>
     );

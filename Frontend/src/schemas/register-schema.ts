@@ -6,8 +6,7 @@ export const registerSchema = z.object({
         .string({ message: "Password is required" })
         .min(6, { message: "Password must be at least 6 characters long" }),
     avatar: z
-        .instanceof(File)
-        .nullable(),
+        .instanceof(File, {message: "Avatar is required"}),
     fullName: z
         .string({ message: "Full Name is required" })
         .min(1, { message: "Full Name cannot be empty" }),

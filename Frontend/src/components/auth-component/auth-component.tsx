@@ -16,7 +16,7 @@ const AuthComponent = () => {
             <h1 className="text-center text-4xl font-extrabold text-orange-600 mb-6">
                 ORANGE
             </h1>
-            {operation === 'register' ? <RegisterComponent /> : <SignInComponent />}
+            {operation === 'register' ? <RegisterComponent setOperation={setOperation} /> : <SignInComponent />}
             <div className="text-center text-sm font-thin">
             {operation === "register" ? "Already " : "Don't "}
                 have an account{" "}

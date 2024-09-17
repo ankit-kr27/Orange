@@ -29,10 +29,12 @@ const FormInput: React.FC<FormInputProps> = ({
                 id={id}
                 value={type !== "file" ? value : undefined} // Value only for non-file types
                 onChange={onChange}
-                errorMessage={errorMessage}
                 variant="bordered"
                 accept={type === "file" ? accept : undefined} // Accept attribute for file inputs
             />
+            <div className='text-red-500 text-xs text-right'>
+                {errorMessage && <p>{errorMessage}</p>}
+            </div>
         </div>
     );
 };
