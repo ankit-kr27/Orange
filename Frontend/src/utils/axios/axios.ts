@@ -3,8 +3,8 @@ import axios, { AxiosError } from "axios";
 async function refreshToken () {
     try {
         const response = await axiosInstance.post('api/v1/users/refresh-token');
-
-        return response.data.accessToken;
+        console.log(response)
+        return response.data.data.accessToken;
     } catch (error: unknown) {
         if (error instanceof AxiosError) {
             console.error("Error refreshing token:", error?.response?.data || error.message);
@@ -26,6 +26,7 @@ const axiosInstance = axios.create({
 axios.interceptors.response.use(
     (response) => response,
     async ( error ) => {
+        console.log("Trying to refresh")
         if(error.response && error.response.status === 401 && !error.config._retry) {
             const originalRequest = error.config;
             originalRequest._retry = true;

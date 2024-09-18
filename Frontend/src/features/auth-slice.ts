@@ -4,16 +4,12 @@ import { AxiosError } from "axios";
 
 export interface AuthState {
     user: object | null;
-    accessToken: string | null;
-    refreshToken: string | null;
     loading: boolean;
     error: string | null;
 }
 
 const initialState: AuthState = {
     user: null,
-    accessToken: null,
-    refreshToken: null,
     loading: false,
     error: null,
 };
@@ -29,8 +25,9 @@ export const loginUser = createAsyncThunk(
                 "api/v1/users/login",
                 formData
             );
-            return response.data;
-        } catch (error: unknown) {
+            console.log(response)
+            return response.data.data;
+        } catch (error) {
             // Check if the error is an AxiosError
             if (error instanceof AxiosError && error.response) {
                 return rejectWithValue(error.response.data.message);
@@ -60,6 +57,24 @@ export const logoutUser = createAsyncThunk(
     }
 );
 
+export const currentUser = createAsyncThunk(
+    "auth/currentUser",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get("api/v1/users/current-user");
+            console.log(response)
+            return response.data.data;
+        } catch (error) {
+            // Check if the error is an AxiosError
+            if (error instanceof AxiosError && error.response) {
+                return rejectWithValue(error.response.data.message);
+            }
+            // Handle other types of errors if necessary
+            return rejectWithValue("An unknown error occurred while getting the current user");
+        }
+    }
+)
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -72,8 +87,6 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.user = action.payload.user;
-                state.accessToken = action.payload.accessToken;
-                state.refreshToken = action.payload.refreshToken;
                 state.loading = false;
             })
             .addCase(loginUser.rejected, (state, action) => {
@@ -86,14 +99,24 @@ const authSlice = createSlice({
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.user = null;
-                state.accessToken = null;
-                state.refreshToken = null;
                 state.loading = false;
             })
             .addCase(logoutUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
-            });
+            })
+            .addCase(currentUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(currentUser.fulfilled, (state, action) => {
+                state.user = action.payload.user;
+                state.loading = false;
+            })
+            .addCase(currentUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
     },
 });
 
