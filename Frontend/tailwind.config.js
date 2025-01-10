@@ -1,66 +1,34 @@
-import { nextui } from "@nextui-org/react";
+import { nextui } from '@nextui-org/react';
 
-const config = {
-    darkMode: ["class"],
+/** @type {import('tailwindcss').Config} */
+export default {
     content: [
-        "./pages/**/*.{ts,tsx}",
-        "./components/**/*.{ts,tsx}",
-        "./app/**/*.{ts,tsx}",
-        "./src/**/*.{ts,tsx}",
-        "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+        './index.html',
+        './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
     ],
-    prefix: "",
     theme: {
         extend: {},
     },
+    darkMode: 'class',
     plugins: [
         nextui({
-            prefix: "nextui", // prefix for themes variables
-            addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
-            defaultTheme: "light", // default theme from the themes object
-            defaultExtendTheme: "light", // default theme to extend on custom themes
-            layout: {}, // common layout tokens (applied to all themes)
             themes: {
                 light: {
-                    layout: {}, // light theme layout tokens
                     colors: {
-                        primary: "#eb5e28",
-                        secondary: "#ff7d00",
-                        content1: "#252422",
-                        background: "#fff", 
+                        // Customize NextUI's light theme colors
                     },
                 },
                 dark: {
-                    layout: {}, // dark theme layout tokens
                     colors: {
-                        primary: "#eb5e28", // vibrant orange
-                        secondary: "#ff7d00", // muted dark orange
-                        content1: "#fffcf2", // light gray for text
-                        background: "#252422", // deep, near-black
+                        // The dark theme should be of orange and dark gray colors
+                        primary: '#e76f51',
+                        secondary: '#2a9d8f',
+                        background: '#1a1a1a',
+                        foreground: '#f0f0f0',
+                        text: '#f0f0f0',
                     },
                 },
-                // ... custom themes
             },
         }),
-        function ({ addUtilities }) {
-            addUtilities({
-                ".scrollbar-thin": {
-                    "&::-webkit-scrollbar": {
-                        width: "6px",
-                        marginTop: "2px",
-                        marginBottom: "2px",
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: "#d1d5db",
-                        borderRadius: "6px",
-                    },
-                    "&::-webkit-scrollbar-track": {
-                        backgroundColor: "transparent",
-                    },
-                },
-            });
-        },
     ],
 };
-
-export default config;
