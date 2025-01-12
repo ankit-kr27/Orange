@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from '@nextui-org/react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getCurrentUser } from '../features/auth/authSlice';
 
