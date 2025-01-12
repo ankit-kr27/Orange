@@ -12,6 +12,7 @@ const ProtectedContainer = () => {
         if (!user) {
             dispatch(getCurrentUser());
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     if (isLoading) {
