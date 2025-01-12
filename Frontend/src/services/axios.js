@@ -17,7 +17,8 @@ API.interceptors.response.use(
     async (error) => {
         const { config } = error;
         const { status, data } = error.response;
-        if (status === 401 && data.message === 'Invalid access token') {
+        console.log(status, data.message);
+        if (status === 401 && (data.message === 'jwt expired' || data.message === 'Unauthorized request')) {
             try {
                 await TokenRefreshClient.post('/api/v1/users/refresh-token');
                 return TokenRefreshClient(config);

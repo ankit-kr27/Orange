@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from '../../lib/api';
+import { navigate } from '../../lib/navigation';
 
 const initialState = {
     user: null,
@@ -14,12 +15,12 @@ export const login = createAsyncThunk(
     'auth/login',
     async (userData, thunkAPI) => {
         try {
-            return await authService.login(userData);
+            const response = await authService.login(userData);
+            console.log(response.data);
+            return response.data;
         } catch (error) {
             const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
+                (error.response && error.response.data && error.response.data.message) ||
                 error.message ||
                 error.toString();
             return thunkAPI.rejectWithValue(message);
@@ -37,7 +38,9 @@ export const getCurrentUser = createAsyncThunk(
     'auth/getCurrentUser',
     async (_, thunkAPI) => {
         try {
-            return await authService.getCurrentUser();
+            const response = await authService.getCurrentUser();
+            console.log(response.data);
+            return response.data;
         } catch (error) {
             const message =
                 (error.response &&
@@ -70,7 +73,11 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.user = action.payload;
+                state.user = action.payload.user;
+                const redirectUrl = location.state?.redirectUrl || '/';
+                navigate(redirectUrl, {
+                    replace: true,
+                });
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
@@ -89,7 +96,7 @@ const authSlice = createSlice({
             .addCase(getCurrentUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.user = action.payload;
+                state.user = action.payload.user;
             })
             .addCase(getCurrentUser.rejected, (state, action) => {
                 state.isLoading = false;

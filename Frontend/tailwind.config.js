@@ -3,8 +3,9 @@ import { nextui } from '@nextui-org/react';
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        './index.html',
-        './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+        "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
         extend: {},
@@ -30,5 +31,23 @@ export default {
                 },
             },
         }),
+        function ({ addUtilities }) {
+            addUtilities({
+                ".scrollbar-thin": {
+                    "&::-webkit-scrollbar": {
+                        width: "6px",
+                        marginTop: "2px",
+                        marginBottom: "2px",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "#d1d5db",
+                        borderRadius: "6px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                        backgroundColor: "transparent",
+                    },
+                },
+            });
+        },
     ],
 };
